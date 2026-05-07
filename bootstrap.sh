@@ -50,19 +50,21 @@ setup_savedata() {
 
 setup_plugins() {
   log "Setting up plugins..."
-  rm -rf "${PLUGINS_DIR}"/* || die "Failed to clean plugins directory"
-  if [ -d "${CUSTOM_PLUGINS_DIR}" ]; then
-      if [ -n "${ASPHYXIA_PLUGIN_REPLACE}" ]; then
-          log "ASPHYXIA_PLUGIN_REPLACE defined, not copying default plugins"
-      else
-          log "Adding default plugins"
-          cp -r "${DEFAULT_PLUGINS_DIR}"/* "${PLUGINS_DIR}"/ || die "Failed to add default plugins"
-      fi
-  	log "Custom plugins FOUND; Adding custom plugins"
-  	cp -r "${CUSTOM_PLUGINS_DIR}"/* "${PLUGINS_DIR}"/ || die "Failed to add custom plugins"
-  else
-      log "Custom plugins NOT FOUND; Adding default plugins"
-      cp -r "${DEFAULT_PLUGINS_DIR}"/* "${PLUGINS_DIR}"/ || die "Failed to copy default plugins"
+  if [ -n "${ASPHYXIA_UPDATE_MODE}" ]; then
+    rm -rf "${PLUGINS_DIR}"/* || die "Failed to clean plugins directory"
+    if [ -d "${CUSTOM_PLUGINS_DIR}" ]; then
+        if [ -n "${ASPHYXIA_PLUGIN_REPLACE}" ]; then
+            log "ASPHYXIA_PLUGIN_REPLACE defined, not copying default plugins"
+        else
+            log "Adding default plugins"
+            cp -r "${DEFAULT_PLUGINS_DIR}"/* "${PLUGINS_DIR}"/ || die "Failed to add default plugins"
+        fi
+        log "Custom plugins FOUND; Adding custom plugins"
+        cp -r "${CUSTOM_PLUGINS_DIR}"/* "${PLUGINS_DIR}"/ || die "Failed to add custom plugins"
+    else
+        log "Custom plugins NOT FOUND; Adding default plugins"
+        cp -r "${DEFAULT_PLUGINS_DIR}"/* "${PLUGINS_DIR}"/ || die "Failed to copy default plugins"
+    fi
   fi
 }
 
