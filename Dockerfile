@@ -18,4 +18,5 @@ RUN apk add gcompat libgcc libstdc++ &&\
     rm *.zip &&\
     rm -rf plugins-${ASPHYXIA_PLUGIN_VERSION} &&\
     chmod -R 774 ./asphyxia
+    chmod -R 774 /usr/local/share/bootstrap.sh
 CMD /usr/local/share/bootstrap.sh
